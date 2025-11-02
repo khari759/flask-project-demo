@@ -18,6 +18,15 @@ try:
     print("✅ Connected to MongoDB Atlas")
 except Exception as e:
     print("❌ MongoDB connection failed:", e)
+    
+@app.route('/submittodoitem', methods=['POST'])
+def submit_todo():
+    data = request.json
+    db.todo_items.insert_one({
+        "itemName": data["itemName"],
+        "itemDescription": data["itemDescription"]
+    })
+    return jsonify({"message": "Item saved successfully"})
 
 @app.route('/')
 def home():
